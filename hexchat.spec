@@ -1,13 +1,13 @@
 Summary:   A popular and easy to use graphical IRC (chat) client
 Name:      hexchat
-Version:   2.9.4
+Version:   2.9.5
 Release:   1%{?dist}
 Group:     Applications/Internet
 License:   GPLv2+
 URL:       http://www.hexchat.org
-Source:    https://github.com/downloads/hexchat/hexchat/%{name}-%{version}.tar.xz
+Source:    http://dl.hexchat.org/hexchat/%{name}-%{version}.tar.xz
 
-BuildRequires: perl-ExtUtils-Embed, python-devel, tcl-devel, pciutils-devel
+BuildRequires: perl-ExtUtils-Embed, python-devel, pciutils-devel
 BuildRequires: dbus-glib-devel, intltool, libtool
 BuildRequires: glib2-devel, gtk2-devel
 BuildRequires: libproxy-devel, libsexy-devel, libnotify-devel, openssl-devel
@@ -24,25 +24,18 @@ are possible.
 NOCONFIGURE=1 ./autogen.sh
 
 %build
-find -type f -exec chmod a-x {} \;
-find -name configure -exec chmod a+x {} \;
-%configure --enable-ipv6 \
-           --enable-spell=libsexy \
-           --enable-shm
+%configure --enable-spell=libsexy
 
 make %{?_smp_mflags} V=1
 
 %install
 make DESTDIR=%{buildroot} install
 
-# Add SVG for hicolor
-install -D -m644 share/icons/hexchat.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/hexchat.svg
-
 # Get rid of libtool archives
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
-# Drop deprecated TCL plugin
-find %{buildroot} -name 'tcl.so' -exec rm -f {} ';'
+# Remove include, not worth a -devel package
+rm -f %{buildroot}%{_includedir}/hexchat-plugin.h
 
 # Remove unused schema
 rm -f %{buildroot}%{_sysconfdir}/gconf/schemas/apps_hexchat_url_handler.schemas
@@ -55,7 +48,7 @@ desktop-file-install \
     %{buildroot}%{_datadir}/applications/hexchat.desktop
 
 # Workaround for EL's version of desktop-file-install
-echo Exec="sh -c \"hexchat --existing --url %U || exec hexchat\"">>%{buildroot}%{_datadir}/applications/hexchat.desktop
+echo Exec="sh -c \"hexchat --existing --url %u || exec hexchat\"">>%{buildroot}%{_datadir}/applications/hexchat.desktop
 
 %find_lang %{name}
 
@@ -85,11 +78,16 @@ fi
 %{_libdir}/hexchat/plugins/perl.so
 %{_libdir}/hexchat/plugins/python.so
 %{_datadir}/applications/hexchat.desktop
-%{_datadir}/icons/hicolor/scalable/apps/hexchat.svg
-%{_datadir}/pixmaps/*
+%{_datadir}/icons/hicolor/*
 %{_datadir}/dbus-1/services/org.hexchat.service.service
 %{_mandir}/man1/*.gz
 
 %changelog
+* Mon Apr 1 2013 TingPing <tingping@tingping.se> - 2.9.5-1
+- Version bump to 2.9.5
+
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.9.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Thu Dec 27 2012 TingPing <tingping@tingping.se> - 2.9.4-1
 - Initial HexChat package
