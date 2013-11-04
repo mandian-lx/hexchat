@@ -7,7 +7,7 @@ License:	GPLv2+
 URL:		http://www.hexchat.org
 Source0:	http://dl.hexchat.net/hexchat/%{name}-%{version}.tar.xz
 
-BuildRequires:	perl-ExtUtils-Embed
+#BuildRequires:	perl-ExtUtils-Embed
 BuildRequires:	python-devel
 BuildRequires:	tcl-devel
 BuildRequires:	pkgconfig(libpci)
