@@ -1,17 +1,24 @@
-Summary:   A popular and easy to use graphical IRC (chat) client
-Name:      hexchat
-Version:   2.9.4
-Release:   1%{?dist}
-Group:     Applications/Internet
-License:   GPLv2+
-URL:       http://www.hexchat.org
-Source:    https://github.com/downloads/hexchat/hexchat/%{name}-%{version}.tar.xz
+Summary:	A popular and easy to use graphical IRC (chat) client
+Name:		hexchat
+Version:	2.9.6.1
+Release:	1
+Group:		Applications/Internet
+License:	GPLv2+
+URL:		http://www.hexchat.org
+Source0:	http://dl.hexchat.net/hexchat/%{name}-%{version}.tar.xz
 
-BuildRequires: perl-ExtUtils-Embed, python-devel, tcl-devel, pciutils-devel
-BuildRequires: dbus-glib-devel, intltool, libtool
-BuildRequires: glib2-devel, gtk2-devel
-BuildRequires: libproxy-devel, libsexy-devel, libnotify-devel, openssl-devel
-BuildRequires: desktop-file-utils, hicolor-icon-theme
+BuildRequires:	perl-ExtUtils-Embed
+BuildRequires:	python-devel
+BuildRequires:	tcl-devel
+BuildRequires:	pkgconfig(libpci)
+BuildRequires:	pkgconfig(dbus-glib-1)
+BuildRequires:	pkgconfig(glib-2.0)
+BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(libproxy-1.0)
+BuildRequires:	pkgconfig(libsexy)
+BuildRequires:	pkgconfig(libnotify)
+BuildRequires:	openssl-devel
+BuildRequires:	desktop-file-utils
 
 %description
 HexChat is an easy to use graphical IRC chat client for the X Window System.
@@ -26,14 +33,16 @@ NOCONFIGURE=1 ./autogen.sh
 %build
 find -type f -exec chmod a-x {} \;
 find -name configure -exec chmod a+x {} \;
-%configure --enable-ipv6 \
-           --enable-spell=libsexy \
-           --enable-shm
 
-make %{?_smp_mflags} V=1
+%configure2_5x \
+		--enable-ipv6 \
+        --enable-spell=libsexy \
+        --enable-shm
+
+%make
 
 %install
-make DESTDIR=%{buildroot} install
+%makeinstall_std
 
 # Add SVG for hicolor
 install -D -m644 share/icons/hexchat.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/hexchat.svg
@@ -59,25 +68,11 @@ echo Exec="sh -c \"hexchat --existing --url %U || exec hexchat\"">>%{buildroot}%
 
 %find_lang %{name}
 
-%post
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-/usr/bin/update-desktop-database &> /dev/null || :
-
-%postun
-/usr/bin/update-desktop-database &> /dev/null || :
-if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-%posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-
 %files -f %{name}.lang
-%{_bindir}/hexchat
 %doc share/doc/*
 %dir %{_libdir}/hexchat
 %dir %{_libdir}/hexchat/plugins
+%{_bindir}/hexchat
 %{_libdir}/hexchat/plugins/checksum.so
 %{_libdir}/hexchat/plugins/doat.so
 %{_libdir}/hexchat/plugins/fishlim.so
@@ -89,7 +84,3 @@ fi
 %{_datadir}/pixmaps/*
 %{_datadir}/dbus-1/services/org.hexchat.service.service
 %{_mandir}/man1/*.gz
-
-%changelog
-* Thu Dec 27 2012 TingPing <tingping@tingping.se> - 2.9.4-1
-- Initial HexChat package
