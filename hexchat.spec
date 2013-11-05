@@ -86,7 +86,6 @@ echo Exec="sh -c \"hexchat --existing --url %U || exec hexchat\"">>%{buildroot}%
 %{_libdir}/hexchat/plugins/python.so
 %{_datadir}/applications/hexchat.desktop
 %{_iconsdir}/hicolor/*/apps/*.*g
-%{_datadir}/pixmaps/*
 %{_datadir}/dbus-1/services/org.hexchat.service.service
 %{_datadir}/appdata/hexchat.appdata.xml
 %{_mandir}/man1/%{name}.1.*
