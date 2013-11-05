@@ -56,6 +56,11 @@ find %{buildroot} -name 'tcl.so' -exec rm -f {} ';'
 # Remove unused schema
 rm -f %{buildroot}%{_sysconfdir}/gconf/schemas/apps_hexchat_url_handler.schemas
 
+
+#(tpg) remove these files
+rm -rf %{buildroot}%{_includedir}/hexchat-plugin.h
+rm -rf %{buildroot}%{_libdir}/pkgconfig/hexchat-plugin.pc
+
 # Fix opening irc:// links by adding mimetype and editing exec
 desktop-file-install \
     --add-mime-type='x-scheme-handler/irc;x-scheme-handler/ircs' \
@@ -80,7 +85,8 @@ echo Exec="sh -c \"hexchat --existing --url %U || exec hexchat\"">>%{buildroot}%
 %{_libdir}/hexchat/plugins/perl.so
 %{_libdir}/hexchat/plugins/python.so
 %{_datadir}/applications/hexchat.desktop
-%{_datadir}/icons/hicolor/scalable/apps/hexchat.svg
+%{_iconsdir}/hicolor/*/apps/*.*g
 %{_datadir}/pixmaps/*
 %{_datadir}/dbus-1/services/org.hexchat.service.service
-%{_mandir}/man1/*.gz
+%{_datadir}/appdata/hexchat.appdata.xml
+%{_mandir}/man1/%{name}.1.*
