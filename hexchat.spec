@@ -1,12 +1,12 @@
 Summary:	A popular and easy to use graphical IRC (chat) client
 Name:		hexchat
-Version:	2.9.6.1
-Release:	3
+Version:	2.12.1
+Release:	1
 Group:		Networking/IRC
 License:	GPLv2+
-URL:		http://www.hexchat.org
+URL:		https://hexchat.github.io
 Source0:	http://dl.hexchat.net/hexchat/%{name}-%{version}.tar.xz
-
+BuildRequires:	gettext-devel
 BuildRequires:	perl-devel
 BuildRequires:	python-devel
 BuildRequires:	tcl-devel
@@ -28,14 +28,13 @@ are possible.
 
 %prep
 %setup -q
-NOCONFIGURE=1 ./autogen.sh
 
 %build
 find -type f -exec chmod a-x {} \;
 find -name configure -exec chmod a+x {} \;
 
-%configure2_5x \
-		--enable-ipv6 \
+%configure \
+	--enable-ipv6 \
         --enable-spell=libsexy \
         --enable-shm
 
