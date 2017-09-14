@@ -7,6 +7,7 @@ License:	GPLv2+
 URL:		https://hexchat.github.io
 Source0:	https://dl.hexchat.net/hexchat/%{name}-%{version}.tar.xz
 
+BuildRequires:	autoconf-archive
 BuildRequires:	desktop-file-utils
 BuildRequires:	intltool
 BuildRequires:	gettext-devel
