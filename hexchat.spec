@@ -7,20 +7,20 @@ License:	GPLv2+
 URL:		https://hexchat.github.io
 Source0:	https://dl.hexchat.net/hexchat/%{name}-%{version}.tar.xz
 
-BuildRequires:	autoconf-archive
 BuildRequires:	desktop-file-utils
-BuildRequires:	gettext-devel
 BuildRequires:	intltool
+BuildRequires:	gettext-devel
 BuildRequires:	perl-devel
-BuildRequires:	python-devel
 BuildRequires:	tcl-devel
 BuildRequires:	pkgconfig(libpci)
+BuildRequires:	pkgconfig(lua)
 BuildRequires:	pkgconfig(dbus-glib-1)
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(libproxy-1.0)
 BuildRequires:	pkgconfig(libsexy)
 BuildRequires:	pkgconfig(libnotify)
+BuildRequires:	pkgconfig(python)
 BuildRequires:	openssl-devel
 
 %description
@@ -32,6 +32,25 @@ are possible.
 %prep
 %setup -q
 
+%files -f %{name}.lang
+%doc share/doc/*
+%dir %{_libdir}/hexchat
+%dir %{_libdir}/hexchat/plugins
+%{_bindir}/hexchat
+%{_libdir}/hexchat/plugins/checksum.so
+%{_libdir}/hexchat/plugins/doat.so
+%{_libdir}/hexchat/plugins/fishlim.so
+%{_libdir}/hexchat/plugins/sysinfo.so
+%{_libdir}/hexchat/plugins/perl.so
+%{_libdir}/hexchat/plugins/python.so
+%{_datadir}/applications/hexchat.desktop
+%{_iconsdir}/hicolor/*/apps/*.*g
+%{_datadir}/dbus-1/services/org.hexchat.service.service
+%{_datadir}/appdata/hexchat.appdata.xml
+%{_mandir}/man1/%{name}.1.*
+
+#---------------------------------------------------------------------------
+
 %build
 find -type f -exec chmod a-x {} \;
 find -name configure -exec chmod a+x {} \;
@@ -40,8 +59,8 @@ sh ./autogen.sh
 %configure \
 	--enable-ipv6 \
         --enable-spell=libsexy \
-        --enable-shm
-
+        --enable-shm \
+        %{nil}
 %make
 
 %install
@@ -74,21 +93,6 @@ desktop-file-install \
 # Workaround for EL's version of desktop-file-install
 echo Exec="sh -c \"hexchat --existing --url %U || exec hexchat\"">>%{buildroot}%{_datadir}/applications/hexchat.desktop
 
+# locales
 %find_lang %{name}
 
-%files -f %{name}.lang
-%doc share/doc/*
-%dir %{_libdir}/hexchat
-%dir %{_libdir}/hexchat/plugins
-%{_bindir}/hexchat
-%{_libdir}/hexchat/plugins/checksum.so
-%{_libdir}/hexchat/plugins/doat.so
-%{_libdir}/hexchat/plugins/fishlim.so
-%{_libdir}/hexchat/plugins/sysinfo.so
-%{_libdir}/hexchat/plugins/perl.so
-%{_libdir}/hexchat/plugins/python.so
-%{_datadir}/applications/hexchat.desktop
-%{_iconsdir}/hicolor/*/apps/*.*g
-%{_datadir}/dbus-1/services/org.hexchat.service.service
-%{_datadir}/appdata/hexchat.appdata.xml
-%{_mandir}/man1/%{name}.1.*
