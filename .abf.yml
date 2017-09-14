@@ -1,2 +1,4 @@
+removed_sources:
+  hexchat-2.12.1.tar.xz: 45281165322bf4c331cdb5047f9907fdc6526a09
 sources:
-  "hexchat-2.12.1.tar.xz": 45281165322bf4c331cdb5047f9907fdc6526a09
+  hexchat-2.12.4.tar.xz: aaa57cd59131fced7c675cea9240359adc7dcf8b

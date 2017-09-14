@@ -1,11 +1,14 @@
 Summary:	A popular and easy to use graphical IRC (chat) client
 Name:		hexchat
-Version:	2.12.1
+Version:	2.12.4
 Release:	1
 Group:		Networking/IRC
 License:	GPLv2+
 URL:		https://hexchat.github.io
-Source0:	http://dl.hexchat.net/hexchat/%{name}-%{version}.tar.xz
+Source0:	https://dl.hexchat.net/hexchat/%{name}-%{version}.tar.xz
+
+BuildRequires:	autoconf-archive
+BuildRequires:	desktop-file-utils
 BuildRequires:	gettext-devel
 BuildRequires:	intltool
 BuildRequires:	perl-devel
@@ -19,7 +22,6 @@ BuildRequires:	pkgconfig(libproxy-1.0)
 BuildRequires:	pkgconfig(libsexy)
 BuildRequires:	pkgconfig(libnotify)
 BuildRequires:	openssl-devel
-BuildRequires:	desktop-file-utils
 
 %description
 HexChat is an easy to use graphical IRC chat client for the X Window System.
@@ -34,6 +36,7 @@ are possible.
 find -type f -exec chmod a-x {} \;
 find -name configure -exec chmod a+x {} \;
 
+sh ./autogen.sh
 %configure \
 	--enable-ipv6 \
         --enable-spell=libsexy \
