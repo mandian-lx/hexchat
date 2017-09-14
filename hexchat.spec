@@ -21,7 +21,7 @@ BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(libproxy-1.0)
 BuildRequires:	pkgconfig(libsexy)
 BuildRequires:	pkgconfig(libnotify)
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python3)
 BuildRequires:	openssl-devel
 
 %description
@@ -53,14 +53,13 @@ are possible.
 #---------------------------------------------------------------------------
 
 %build
-find -type f -exec chmod a-x {} \;
-find -name configure -exec chmod a+x {} \;
+%global optflags %{optflags} -flto
 
 sh ./autogen.sh
 %configure \
-	--enable-ipv6 \
-        --enable-spell=libsexy \
-        --enable-shm \
+	--enable-python=python3 \
+	--enable-static-analysis \
+	--enable-textfe \
         %{nil}
 %make
 
