@@ -69,7 +69,8 @@ sh ./autogen.sh
 %makeinstall_std
 
 # Add SVG for hicolor
-install -D -m644 share/icons/hexchat.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/hexchat.svg
+install -dm 0755 %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
+install -pm 0644 data/icons/%{name}.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
 
 # Get rid of libtool archives
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
