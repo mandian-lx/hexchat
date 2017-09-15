@@ -83,9 +83,6 @@ desktop-file-edit \
 # Get rid of libtool archives
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
-# Drop deprecated TCL plugin
-find %{buildroot} -name 'tcl.so' -exec rm -f {} ';'
-
 # Remove unused schema
 rm -f %{buildroot}%{_sysconfdir}/gconf/schemas/apps_hexchat_url_handler.schemas
 
