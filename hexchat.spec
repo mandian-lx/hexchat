@@ -79,8 +79,6 @@ plugins for HexChat.
 #---------------------------------------------------------------------------
 
 %build
-%global optflags %{optflags} -flto
-
 sh ./autogen.sh
 %configure \
 	--enable-python=python3 \
