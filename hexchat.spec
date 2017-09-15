@@ -15,8 +15,8 @@ BuildRequires:	doxygen
 BuildRequires:	intltool
 BuildRequires:	gettext-devel
 BuildRequires:	graphviz
-BuildRequires:	python3
 BuildRequires:	perl-devel
+BuildRequires:	python3
 BuildRequires:	tcl-devel
 BuildRequires:	pkgconfig(libpci)
 BuildRequires:	pkgconfig(lua)
@@ -80,6 +80,9 @@ plugins for HexChat.
 #---------------------------------------------------------------------------
 
 %build
+%global optflags %{optflags} -use-gold-plugin
+export PYTHON=%{__python3}
+
 sh ./autogen.sh
 %configure \
 	--enable-python=python3 \
