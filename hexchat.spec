@@ -1,3 +1,5 @@
+%define _disable_lto 1
+
 Summary:	A popular and easy to use graphical IRC (chat) client
 Name:		hexchat
 Version:	2.12.4
@@ -60,7 +62,7 @@ sh ./autogen.sh
 	--enable-python=python3 \
 	--enable-static-analysis \
 	--enable-textfe \
-        %{nil}
+	%{nil}
 %make
 
 %install
@@ -85,10 +87,10 @@ rm -rf %{buildroot}%{_libdir}/pkgconfig/hexchat-plugin.pc
 
 # Fix opening irc:// links by adding mimetype and editing exec
 desktop-file-install \
-    --add-mime-type='x-scheme-handler/irc;x-scheme-handler/ircs' \
-    --remove-key=Exec \
-    --dir=%{buildroot}%{_datadir}/applications/ \
-    %{buildroot}%{_datadir}/applications/hexchat.desktop
+	--add-mime-type='x-scheme-handler/irc;x-scheme-handler/ircs' \
+	--remove-key=Exec \
+	--dir=%{buildroot}%{_datadir}/applications/ \
+	%{buildroot}%{_datadir}/applications/hexchat.desktop
 
 # Workaround for EL's version of desktop-file-install
 echo Exec="sh -c \"hexchat --existing --url %U || exec hexchat\"">>%{buildroot}%{_datadir}/applications/hexchat.desktop
