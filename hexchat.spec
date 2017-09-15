@@ -15,6 +15,7 @@ BuildRequires:	doxygen
 BuildRequires:	intltool
 BuildRequires:	gettext-devel
 BuildRequires:	graphviz
+BuildRequires:	python3
 BuildRequires:	perl-devel
 BuildRequires:	tcl-devel
 BuildRequires:	pkgconfig(libpci)
