@@ -73,6 +73,13 @@ sh ./autogen.sh
 install -dm 0755 %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
 install -pm 0644 data/icons/%{name}.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
 
+# Fix opening irc:// links by adding mimetype and editing exec
+desktop-file-edit \
+	--add-mime-type='x-scheme-handler/irc;x-scheme-handler/ircs' \
+	--set-key=Exec \
+	--set-value="sh -c \"hexchat --existing --url %U || exec hexchat\"" \
+	%{buildroot}%{_datadir}/applications/%{name}.desktop
+
 # Get rid of libtool archives
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
@@ -86,16 +93,6 @@ rm -f %{buildroot}%{_sysconfdir}/gconf/schemas/apps_hexchat_url_handler.schemas
 #(tpg) remove these files
 rm -rf %{buildroot}%{_includedir}/hexchat-plugin.h
 rm -rf %{buildroot}%{_libdir}/pkgconfig/hexchat-plugin.pc
-
-# Fix opening irc:// links by adding mimetype and editing exec
-desktop-file-install \
-	--add-mime-type='x-scheme-handler/irc;x-scheme-handler/ircs' \
-	--remove-key=Exec \
-	--dir=%{buildroot}%{_datadir}/applications/ \
-	%{buildroot}%{_datadir}/applications/hexchat.desktop
-
-# Workaround for EL's version of desktop-file-install
-echo Exec="sh -c \"hexchat --existing --url %U || exec hexchat\"">>%{buildroot}%{_datadir}/applications/hexchat.desktop
 
 # locales
 %find_lang %{name}
