@@ -11,8 +11,10 @@ Source0:	https://dl.hexchat.net/hexchat/%{name}-%{version}.tar.xz
 
 BuildRequires:	autoconf-archive
 BuildRequires:	desktop-file-utils
+BuildRequires:	doxygen
 BuildRequires:	intltool
 BuildRequires:	gettext-devel
+BuildRequires:	graphviz
 BuildRequires:	perl-devel
 BuildRequires:	tcl-devel
 BuildRequires:	pkgconfig(libpci)
@@ -55,6 +57,27 @@ are possible.
 
 #---------------------------------------------------------------------------
 
+%package	devel
+Summary:	Header file and docs for HexChat
+Group:		Development/C
+
+%description devel
+HexChat is an easy to use graphical IRC chat client for the X Window System.
+It allows you to join multiple IRC channels (chat rooms) at the same time,
+talk publicly, private one-on-one conversations etc. Even file transfers
+are possible.
+
+This package provides header file and documentation needed to develop
+plugins for HexChat.
+
+%files devel
+%doc readme.md
+%doc html/*
+%{_includedir}/%{name}-plugin.h
+%{_libdir}/pkgconfig/%{name}-plugin.pc
+
+#---------------------------------------------------------------------------
+
 %build
 %global optflags %{optflags} -flto
 
@@ -65,6 +88,9 @@ sh ./autogen.sh
 	--enable-textfe \
 	%{nil}
 %make
+
+# doc
+doxygen
 
 %install
 %makeinstall_std
@@ -81,15 +107,10 @@ desktop-file-edit \
 	%{buildroot}%{_datadir}/applications/%{name}.desktop
 
 # Get rid of libtool archives
-find %{buildroot} -name '*.la' -exec rm -f {} ';'
+find %{buildroot} -name '*.la' -delete
 
 # Remove unused schema
 rm -f %{buildroot}%{_sysconfdir}/gconf/schemas/apps_hexchat_url_handler.schemas
-
-
-#(tpg) remove these files
-rm -rf %{buildroot}%{_includedir}/hexchat-plugin.h
-rm -rf %{buildroot}%{_libdir}/pkgconfig/hexchat-plugin.pc
 
 # locales
 %find_lang %{name}
