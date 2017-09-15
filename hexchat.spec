@@ -36,20 +36,21 @@ are possible.
 %setup -q
 
 %files -f %{name}.lang
-%doc share/doc/*
-%dir %{_libdir}/hexchat
-%dir %{_libdir}/hexchat/plugins
-%{_bindir}/hexchat
-%{_libdir}/hexchat/plugins/checksum.so
-%{_libdir}/hexchat/plugins/doat.so
-%{_libdir}/hexchat/plugins/fishlim.so
-%{_libdir}/hexchat/plugins/sysinfo.so
-%{_libdir}/hexchat/plugins/perl.so
-%{_libdir}/hexchat/plugins/python.so
-%{_datadir}/applications/hexchat.desktop
+%doc readme.md
+%{_bindir}/%{name}
+%{_bindir}/%{name}-text
+%dir %{_libdir}/%{name}
+%dir %{_libdir}/%{name}/plugins
+%{_libdir}/%{name}/plugins/checksum.so
+%{_libdir}/%{name}/plugins/fishlim.so
+%{_libdir}/%{name}/plugins/lua.so
+%{_libdir}/%{name}/plugins/perl.so
+%{_libdir}/%{name}/plugins/python.so
+%{_libdir}/%{name}/plugins/sysinfo.so
 %{_iconsdir}/hicolor/*/apps/*.*g
+%{_datadir}/appdata/%{name}.appdata.xml
+%{_datadir}/applications/%{name}.desktop
 %{_datadir}/dbus-1/services/org.hexchat.service.service
-%{_datadir}/appdata/hexchat.appdata.xml
 %{_mandir}/man1/%{name}.1.*
 
 #---------------------------------------------------------------------------
